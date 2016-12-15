@@ -4,19 +4,19 @@
  * Copyright 2015 Your Name <you@yourhost.com>
  */
 
-#include "myentity.h"
+#include "plane.h"
 
-MyEntity::MyEntity() : Entity()
+MyPlane::MyPlane() : Entity()
 {
 
 }
 
-MyEntity::~MyEntity()
+MyPlane::~MyPlane()
 {
 
 }
 
-void MyEntity::update(float deltaTime)
+void MyPlane::update(float deltaTime)
 {
 	// ###############################################################
 	// Rotate

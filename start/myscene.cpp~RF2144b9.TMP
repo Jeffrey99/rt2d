@@ -1,0 +1,126 @@
+/**
+ * This class describes MyScene behavior.
+ *
+ * Copyright 2015 Your Name <you@yourhost.com>
+ */
+
+#include <fstream>
+#include <sstream>
+
+#include "myscene.h"
+
+MyScene::MyScene() : Scene()
+{
+	// start the timer.
+	t.start();
+
+	// create a single instance of MyEntity in the middle of the screen.
+	// the Sprite is added in Constructor of MyEntity.
+	myentity = new MyEntity();
+	myentity2 = new MyEntity();
+	floor = new MyEntity();
+	floor->position = 100, 100;
+	floor->addSprite("assets/images/floor.tga");
+	floor->sprite()->color = RED;
+	myentity->position = Point2(SWIDTH  / 2, SHEIGHT / 2 -200);
+	myentity2->position = Point2(SWIDTH / 2, SHEIGHT / 2 +200);
+	myentity2->addSprite("assets/images/square.tga");
+	myentity2->sprite()->color = RED;
+	myentity->addSprite("assets/images/test.tga");
+	myentity->sprite()->color = RED;
+
+
+
+	// create the scene 'tree'
+	// add myentity to this Scene as a child.
+	this->addChild(myentity);
+	this->addChild(myentity2);
+	this->addChild(floor);
+
+}
+
+
+MyScene::~MyScene()
+{
+	// deconstruct and delete the Tree
+	this->removeChild(myentity);
+	this->removeChild(myentity2);
+
+	// delete myentity from the heap (there was a 'new' in the constructor)
+	delete myentity;
+	delete myentity2;
+}
+
+void MyScene::update(float deltaTime)
+{
+	// ###############################################################
+	// Escape key stops the Scene
+	// ###############################################################
+	if (input()->getKeyUp( GLFW_KEY_ESCAPE )) {
+		this->stop();
+	}
+
+	// ###############################################################
+	// Spacebar scales myentity
+	// ###############################################################
+	if (input()->getKey( GLFW_KEY_A )) {
+		myentity->position.x -= 0.5f;
+	}
+	if (input()->getKey( GLFW_KEY_D )) {
+		myentity->position.x += 0.5f;
+	}
+
+	if (input()->getKey(GLFW_KEY_LEFT)) {
+		myentity2->position.x -= 0.5f;
+	}
+	if (input()->getKey(GLFW_KEY_RIGHT)) {
+		myentity2->position.x += 0.5f;
+	}
+
+	if (input()->getKey(GLFW_KEY_W)) {
+		myentity->position.y -= 0.5f;
+	}
+	if (input()->getKey(GLFW_KEY_S)) {
+		myentity->position.y += 0.5f;
+	}
+
+	if (input()->getKey(GLFW_KEY_UP)) {
+		myentity2->position.y -= 0.5f;
+	}
+	if (input()->getKey(GLFW_KEY_DOWN)) {
+		myentity2->position.y += 0.5f;
+	}
+	if (input()->getKey(GLFW_KEY_E)) {
+		myentity->rotation += 10  * deltaTime; // 90 deg/sec
+		if (myentity->rotation > TWO_PI) {
+			myentity->rotation -= TWO_PI;
+		}
+	}
+	if (input()->getKey(GLFW_KEY_Q)) {
+		myentity->rotation -= 10 * deltaTime; // 90 deg/sec
+		if (myentity->rotation > TWO_PI) {
+			myentity->rotation -= TWO_PI;
+		}
+	}
+	if (input()->getKey(GLFW_KEY_Z)) {
+		myentity2->rotation -= 10 * deltaTime; // 90 deg/sec
+		if (myentity2->rotation > TWO_PI) {
+			myentity2->rotation -= TWO_PI;
+		}
+	}
+	if (input()->getKey(GLFW_KEY_X)) {
+		myentity2->rotation += 10 * deltaTime; // 90 deg/sec
+		if (myentity2->rotation > TWO_PI) {
+			myentity2->rotation -= TWO_PI;
+		}
+	}
+	// ###############################################################
+	// Rotate color
+	// ###############################################################
+	if (t.seconds() > 0.0333f) {
+		RGBAColor color = myentity->sprite()->color;
+		myentity->sprite()->color = Color::rotate(color, 0.01f);
+		myentity2->sprite()->color = Color::rotate(color, 0.01f);
+		t.start();
+	}
+}

@@ -10,9 +10,9 @@
 #define MYSCENE_H
 
 #include <rt2d/scene.h>
-
-#include "myentity.h"
-
+#include <Box2D/Box2D.h>
+#include "plane.h"
+#include "spritespawner.h"
 /// @brief The MyScene class is the Scene implementation.
 class MyScene : public Scene
 {
@@ -26,10 +26,13 @@ public:
 	/// @param deltaTime the elapsed time in seconds
 	/// @return void
 	virtual void update(float deltaTime);
-
+	b2World* physicsWorld;
+	b2Body* blokje1;
+	b2Body* floorBody;
 private:
 	/// @brief the rotating square in the middle of the screen
-	MyEntity* myentity;
+	MyPlane* plane;
+	MySprite* warningSprite;
 	/// @brief a Timer to rotate the color every n seconds
 	Timer t;
 };

@@ -4,19 +4,19 @@
  * Copyright 2015 Your Name <you@yourhost.com>
  */
 
-#include "myentity.h"
+#include "spritespawner.h"
 
-MyEntity::MyEntity() : Entity()
+MySprite::MySprite() : Entity()
 {
 
 }
 
-MyEntity::~MyEntity()
+MySprite::~MySprite()
 {
 
 }
 
-void MyEntity::update(float deltaTime)
+void MySprite::update(float deltaTime)
 {
 	// ###############################################################
 	// Rotate
