@@ -27,6 +27,9 @@ public:
 
 private:
 	/* add your private declarations */
+public:
+	/* add your public declarations */
+
 };
 
 #endif /* MYENTITY_H */

@@ -8,7 +8,10 @@
 
 MyPlane::MyPlane() : Entity()
 {
-
+	this->addSprite("assets/images/plane.tga");
+	this->position = Point2(SWIDTH / 2 - 300, SHEIGHT / 2);
+	this->scale.x = 1.0f;
+	this->scale.y = 1.0f;
 }
 
 MyPlane::~MyPlane()

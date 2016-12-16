@@ -1,0 +1,5 @@
+git add .
+git commit -m "your commit name"
+git push origin master
+
+git status

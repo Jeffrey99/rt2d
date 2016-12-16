@@ -53,6 +53,7 @@ include_directories(
 	${CMAKE_SOURCE_DIR}/external/rs232/
 	${CMAKE_SOURCE_DIR}/rt2d/
 	${CMAKE_SOURCE_DIR}/.
+	${CMAKE_SOURCE_DIR}/external/Box2d/
 )
 
 link_directories(
@@ -61,6 +62,7 @@ link_directories(
 	${CMAKE_SOURCE_DIR}/external/rs232
 	${CMAKE_SOURCE_DIR}/external/
 	${CMAKE_SOURCE_DIR}/rt2d
+	
 )
 
 set(ALL_LIBS
@@ -69,6 +71,7 @@ set(ALL_LIBS
 	rt2d
 	GLFW_303
 	GLEW_190
+	Box2D
 )
 
 add_definitions(

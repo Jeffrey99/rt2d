@@ -1,8 +1,3 @@
-/**
- * This class describes MyScene behavior.
- *
- * Copyright 2015 Your Name <you@yourhost.com>
- */
 
 #include <fstream>
 #include <sstream>
@@ -12,19 +7,16 @@ using namespace std;
 
 MyScene::MyScene() : Scene()
 {
-	// start the timer.
-	t.start();
-
-	// create a single instance of MyEntity in the middle of the screen.
-	// the Sprite is added in Constructor of MyEntity.
+	t.start(); //Timer
 	plane = new MyPlane();
 	warningSprite = new MySprite;
-	plane->position = Point2(SWIDTH / 2 - 300, SHEIGHT / 2);
+
+	//Define Positions
 	warningSprite->position = Point2(SWIDTH / 2 + 1000 , SHEIGHT / 2  +1000);
-	plane->addSprite("assets/images/plane.tga");
-	plane->scale.x = 1.0f;
-	plane->scale.y = 1.0f;
+	warningSprite->sprite()->color = RED;
+
 	warningSprite->addSprite("assets/images/warning.tga");
+
 	physicsWorld = new b2World(b2Vec2(0, 20.0f));
 	physicsWorld->SetAllowSleeping(false);
 	b2BodyDef bodydef;
@@ -47,25 +39,29 @@ MyScene::MyScene() : Scene()
 	// add myentity to this Scene as a child.
 	this->addChild(plane);
 	this->addChild(warningSprite);
+
+	blokje1->SetTransform(blokje1->GetPosition(), 0.0f * DEG_TO_RAD);
 }
 
 
 MyScene::~MyScene()
 {
 	physicsWorld->DestroyBody(blokje1);
-	delete physicsWorld;
-	// deconstruct and delete the Tree
+
 	this->removeChild(plane);
 	this->removeChild(warningSprite);
 
-	// delete myentity from the heap (there was a 'new' in the constructor)
 	delete plane;
 	delete warningSprite;
+	delete physicsWorld;
 }
 
 void MyScene::update(float deltaTime)
 {
+	physicsWorld->Step(deltaTime, 8, 5);
 	warningSprite->position = Point2(SWIDTH / 2, SHEIGHT / 2);
+	plane->position = Point2(blokje1->GetPosition().x, blokje1->GetPosition().y) * 50.0f;
+	plane->rotation = blokje1->GetAngle();
 
 	if (input()->getMouse(0))
 	{
@@ -73,26 +69,15 @@ void MyScene::update(float deltaTime)
 		blokje1->SetAngularVelocity(0);
 		blokje1->SetLinearVelocity(b2Vec2(0, 0));
 	}
-	physicsWorld->Step(deltaTime, 8, 5);
-	
-	// ###############################################################
-	// Escape key stops the Scene
-	// ###############################################################
 	if (input()->getKeyUp( GLFW_KEY_ESCAPE )) {
 		this->stop();
 	}
 
-	// ###############################################################
-	// Spacebar scales myentity
-	// ###############################################################
-	plane->position = Point2(blokje1->GetPosition().x, blokje1->GetPosition().y) * 50.0f;
-	plane->rotation = blokje1->GetAngle();
-
 	if (input()->getKeyDown(GLFW_KEY_SPACE)) {
-		blokje1->SetGravityScale(-1);
+		blokje1->SetGravityScale(-3);
 	}
 	if (input()->getKeyUp(GLFW_KEY_SPACE)) {
-		blokje1->SetGravityScale(1);
+		blokje1->SetGravityScale(3);
 		blokje1->SetTransform(blokje1->GetPosition(), blokje1->GetAngle() + 1.5f * deltaTime);
 	}
 	if (input()->getKey(GLFW_KEY_SPACE)) {
@@ -111,5 +96,11 @@ void MyScene::update(float deltaTime)
 	}
 	if (plane->position.y > SHEIGHT / 2 - 400 && plane->position.y < SHEIGHT / 2 + 400) {
 		warningSprite->position = Point2(SWIDTH / 2 + 1000, SHEIGHT / 2 + 1000);
+	}
+	if (t.seconds() >  0.0333f) {
+		RGBAColor color = warningSprite->sprite()->color;
+		warningSprite->sprite()->color = Color::rotate(color, 0.1f);
+		t.start();
+
 	}
 }
