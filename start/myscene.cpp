@@ -10,12 +10,13 @@ MyScene::MyScene() : Scene()
 	t.start(); //Timer
 	plane = new MyPlane();
 	warningSprite = new MySprite;
+	background = new MyBackground;
+
+	warningSprite->addSprite("assets/images/warning.tga");
 
 	//Define Positions
 	warningSprite->position = Point2(SWIDTH / 2 + 1000 , SHEIGHT / 2  +1000);
 	warningSprite->sprite()->color = RED;
-
-	warningSprite->addSprite("assets/images/warning.tga");
 
 	physicsWorld = new b2World(b2Vec2(0, 20.0f));
 	physicsWorld->SetAllowSleeping(false);
@@ -34,9 +35,10 @@ MyScene::MyScene() : Scene()
 	fixture.shape = &shape;
 	fixture.density = 1.0f;
 	blokje1->CreateFixture(&fixture);
-
+	 
 	// create the scene 'tree'
 	// add myentity to this Scene as a child.
+	this->addChild(background);
 	this->addChild(plane);
 	this->addChild(warningSprite);
 
@@ -47,11 +49,12 @@ MyScene::MyScene() : Scene()
 MyScene::~MyScene()
 {
 	physicsWorld->DestroyBody(blokje1);
-
+	this->removeChild(background);
 	this->removeChild(plane);
 	this->removeChild(warningSprite);
 
 	delete plane;
+	delete background;
 	delete warningSprite;
 	delete physicsWorld;
 }
@@ -75,6 +78,9 @@ void MyScene::update(float deltaTime)
 
 	if (input()->getKeyDown(GLFW_KEY_SPACE)) {
 		blokje1->SetGravityScale(-3);
+	}
+	if (input()->getKeyDown(GLFW_KEY_D)) {
+		
 	}
 	if (input()->getKeyUp(GLFW_KEY_SPACE)) {
 		blokje1->SetGravityScale(3);
