@@ -6,19 +6,19 @@
  * @brief description of MyEntity behavior.
  */
 
-#ifndef MYENTITY_H
-#define MYENTITY_H
+#ifndef ASTEROID_H
+#define ASTEROID_H
 
 #include <rt2d/entity.h>
 
 /// @brief The MyEntity class is the Entity implementation.
-class MyEntity : public Entity
+class Asteroid : public Entity
 {
 public:
 	/// @brief Constructor
-	MyEntity();
+	Asteroid();
 	/// @brief Destructor
-	virtual ~MyEntity();
+	virtual ~Asteroid();
 
 	/// @brief update is automatically called every frame
 	/// @param deltaTime the elapsed time in seconds

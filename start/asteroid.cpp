@@ -4,19 +4,19 @@
  * Copyright 2015 Your Name <you@yourhost.com>
  */
 
-#include "myentity.h"
+#include "asteroid.h"
 
-MyEntity::MyEntity() : Entity()
+Asteroid::Asteroid() : Entity()
 {
 
 }
 
-MyEntity::~MyEntity()
+Asteroid::~Asteroid()
 {
 
 }
 
-void MyEntity::update(float deltaTime)
+void Asteroid::update(float deltaTime)
 {
 	// ###############################################################
 	// Rotate
