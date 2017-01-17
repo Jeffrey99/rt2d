@@ -9,6 +9,7 @@ MyScene::MyScene() : Scene()
 {
 	t.start(); //Timer
 	plane = new MyPlane();
+	asteroid = new Asteroid();
 	hudobject = new MyHud;
 	coin = new MyCoin();
 	warningSprite = new MySprite;
@@ -45,6 +46,7 @@ MyScene::MyScene() : Scene()
 	this->addChild(background);
 	this->addChild(coin);
 	this->addChild(plane);
+	this->addChild(asteroid);
 	this->addChild(warningSprite);
 	this->addChild(hudobject);
 
@@ -55,6 +57,7 @@ MyScene::MyScene() : Scene()
 MyScene::~MyScene()
 {
 	physicsWorld->DestroyBody(blokje1);
+	this->removeChild(asteroid);
 	this->removeChild(hudobject);
 	this->removeChild(coin);
 	this->removeChild(background);
@@ -62,6 +65,7 @@ MyScene::~MyScene()
 	this->removeChild(warningSprite);
 
 	delete hudobject;
+	delete asteroid;
 	delete plane;
 	delete coin;
 	delete background;

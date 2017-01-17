@@ -16,6 +16,8 @@
 #include "background.h"
 #include "coin.h"
 #include "hud.h"
+#include "asteroid.h"
+
 
 /// @brief The MyScene class is the Scene implementation.
 class MyScene : public Scene
@@ -32,7 +34,6 @@ public:
 	virtual void update(float deltaTime);
 	b2World* physicsWorld;
 	b2Body* blokje1;
-	b2Body* floorBody;
 private:
 	/// @brief the rotating square in the middle of the screen
 	MyPlane* plane;
@@ -40,6 +41,7 @@ private:
 	MyCoin* coin;
 	MyBackground* background;
 	MyHud* hudobject;
+	Asteroid* asteroid;
 	bool startFlying;
 	float startFlyingcount;
 	/// @brief a Timer to rotate the color every n seconds
