@@ -17,6 +17,7 @@
 #include "coin.h"
 #include "hud.h"
 #include "asteroid.h"
+#include "fuel.h"
 
 
 /// @brief The MyScene class is the Scene implementation.
