@@ -9,8 +9,12 @@ MyScene::MyScene() : Scene()
 {
 	t.start(); //Timer
 	plane = new MyPlane();
+	hudobject = new MyHud;
+	coin = new MyCoin();
 	warningSprite = new MySprite;
 	background = new MyBackground;
+	startFlying = false;
+	startFlyingcount = 0;
 
 	warningSprite->addSprite("assets/images/warning.tga");
 
@@ -39,8 +43,10 @@ MyScene::MyScene() : Scene()
 	// create the scene 'tree'
 	// add myentity to this Scene as a child.
 	this->addChild(background);
+	this->addChild(coin);
 	this->addChild(plane);
 	this->addChild(warningSprite);
+	this->addChild(hudobject);
 
 	blokje1->SetTransform(blokje1->GetPosition(), 0.0f * DEG_TO_RAD);
 }
@@ -49,11 +55,15 @@ MyScene::MyScene() : Scene()
 MyScene::~MyScene()
 {
 	physicsWorld->DestroyBody(blokje1);
+	this->removeChild(hudobject);
+	this->removeChild(coin);
 	this->removeChild(background);
 	this->removeChild(plane);
 	this->removeChild(warningSprite);
 
+	delete hudobject;
 	delete plane;
+	delete coin;
 	delete background;
 	delete warningSprite;
 	delete physicsWorld;
@@ -61,17 +71,27 @@ MyScene::~MyScene()
 
 void MyScene::update(float deltaTime)
 {
+	startFlyingcount += deltaTime;
 	physicsWorld->Step(deltaTime, 8, 5);
 	warningSprite->position = Point2(SWIDTH / 2, SHEIGHT / 2);
 	plane->position = Point2(blokje1->GetPosition().x, blokje1->GetPosition().y) * 50.0f;
 	plane->rotation = blokje1->GetAngle();
-
+	
+	if (!startFlying) {
+		blokje1->SetGravityScale(0);
+		blokje1->SetTransform(blokje1->GetPosition(), 0.0f * DEG_TO_RAD);
+		if (startFlyingcount > 3) {
+			startFlying = true;
+			blokje1->SetGravityScale(3);
+		}
+	}
 	if (input()->getMouse(0))
 	{
 		blokje1->SetTransform(b2Vec2(input()->getMouseX() * 0.02f, input()->getMouseY() * 0.02f), blokje1->GetAngle());
 		blokje1->SetAngularVelocity(0);
 		blokje1->SetLinearVelocity(b2Vec2(0, 0));
 	}
+
 	if (input()->getKeyUp( GLFW_KEY_ESCAPE )) {
 		this->stop();
 	}
@@ -79,9 +99,7 @@ void MyScene::update(float deltaTime)
 	if (input()->getKeyDown(GLFW_KEY_SPACE)) {
 		blokje1->SetGravityScale(-3);
 	}
-	if (input()->getKeyDown(GLFW_KEY_D)) {
-		
-	}
+
 	if (input()->getKeyUp(GLFW_KEY_SPACE)) {
 		blokje1->SetGravityScale(3);
 		blokje1->SetTransform(blokje1->GetPosition(), blokje1->GetAngle() + 1.5f * deltaTime);
@@ -105,7 +123,7 @@ void MyScene::update(float deltaTime)
 	}
 	if (t.seconds() >  0.0333f) {
 		RGBAColor color = warningSprite->sprite()->color;
-		warningSprite->sprite()->color = Color::rotate(color, 0.1f);
+		warningSprite->sprite()->color = Color::rotate(color, 0.5f);
 		t.start();
 
 	}

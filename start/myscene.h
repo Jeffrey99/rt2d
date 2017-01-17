@@ -14,6 +14,8 @@
 #include "plane.h"
 #include "spritespawner.h"
 #include "background.h"
+#include "coin.h"
+#include "hud.h"
 
 /// @brief The MyScene class is the Scene implementation.
 class MyScene : public Scene
@@ -35,7 +37,11 @@ private:
 	/// @brief the rotating square in the middle of the screen
 	MyPlane* plane;
 	MySprite* warningSprite;
+	MyCoin* coin;
 	MyBackground* background;
+	MyHud* hudobject;
+	bool startFlying;
+	float startFlyingcount;
 	/// @brief a Timer to rotate the color every n seconds
 	Timer t;
 };

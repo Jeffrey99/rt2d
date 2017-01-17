@@ -14,6 +14,7 @@
  * There's even a second paragraph.
  */
 #include <rt2d/core.h>
+#include <time.h>
 
 #include "myscene.h"
 
@@ -21,6 +22,8 @@
 /// @brief main entry point
 int main( void )
 {
+	srand(time(NULL));
+
 	// Core instance
 	Core core;
 

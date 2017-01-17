@@ -1,17 +1,8 @@
-/**
- * Copyright 2015 Your Name <you@yourhost.com>
- *
- * @file myentity.h
- *
- * @brief description of MyEntity behavior.
- */
-
 #ifndef MYPLANE_H
 #define MYPLANE_H
 
 #include <rt2d/entity.h>
 
-/// @brief The MyEntity class is the Entity implementation.
 class MyPlane : public Entity
 {
 public:
@@ -32,4 +23,4 @@ public:
 
 };
 
-#endif /* MYENTITY_H */
+#endif

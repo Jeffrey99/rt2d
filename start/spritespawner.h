@@ -1,11 +1,3 @@
-/**
- * Copyright 2015 Your Name <you@yourhost.com>
- *
- * @file myentity.h
- *
- * @brief description of MyEntity behavior.
- */
-
 #ifndef MYSPRITE_H
 #define MYSPRITE_H
 
@@ -29,4 +21,4 @@ private:
 	/* add your private declarations */
 };
 
-#endif /* MYENTITY_H */
+#endif
