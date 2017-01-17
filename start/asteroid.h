@@ -27,6 +27,7 @@ public:
 
 private:
 	/* add your private declarations */
+	float turnspeed = rand() % 300;
 };
 
 #endif /* MYENTITY_H */
