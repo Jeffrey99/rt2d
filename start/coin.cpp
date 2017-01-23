@@ -19,7 +19,7 @@ void MyCoin::update(float deltaTime)
 {
 	// ###############################################################
 	// Rotate
-	this->position.x -= 0.28f;
+	this->position.x -= 450.0f * deltaTime;
 	if (this->position.x <= -175)
 	{
 		this->position = Point2(SWIDTH, rand() % 700);

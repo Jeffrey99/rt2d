@@ -12,62 +12,94 @@ MyScene::MyScene() : Scene()
 	asteroid = new Asteroid();
 	hudobject = new MyHud;
 	coin = new MyCoin();
+	fuel = new Fuel();
 	warningSprite = new MySprite;
+	fuelbar = new MySprite;
 	background = new MyBackground;
 	startFlying = false;
 	startFlyingcount = 0;
 
 	warningSprite->addSprite("assets/images/warning.tga");
+	fuelbar->addSprite("assets/images/fuelbar.tga");
 
 	//Define Positions
 	warningSprite->position = Point2(SWIDTH / 2 + 1000 , SHEIGHT / 2  +1000);
+	fuelbar->position = Point2(0 ,30);
+	fuelbar->scale.x = 80;
 	warningSprite->sprite()->color = RED;
 
 	physicsWorld = new b2World(b2Vec2(0, 20.0f));
 	physicsWorld->SetAllowSleeping(false);
 	b2BodyDef bodydef;
+	b2BodyDef asteroidBody;
+	asteroidBody.position.Set(asteroid->position.x * 0.02f, asteroid->position.y * 0.02f);
 	bodydef.position.Set(plane->position.x * 0.02f, plane->position.y * 0.02f);
+	asteroidBody.type = b2_dynamicBody;
 	bodydef.type = b2_dynamicBody;
+	asteroidb2 = physicsWorld->CreateBody(&asteroidBody);
 	blokje1 = physicsWorld->CreateBody(&bodydef);
 
 	b2PolygonShape shape;
+	b2PolygonShape asteroidShape;
 
 	float colliderWidth = 128 * 0.02f; // pixels naar meters
 	float colliderHeight = 64 * 0.02f; // pixels naar meters
+	shape.SetAsBox(colliderWidth, colliderHeight);
+
+	float colliderWidth2 = 128 * 0.02f; // pixels naar meters
+	float colliderHeight2 = 128 * 0.02f; // pixels naar meters
+	asteroidShape.SetAsBox(colliderWidth2, colliderHeight2);
 	shape.SetAsBox(colliderWidth, colliderHeight);
 
 	b2FixtureDef fixture;
 	fixture.shape = &shape;
 	fixture.density = 1.0f;
 	blokje1->CreateFixture(&fixture);
+
+	b2FixtureDef fixture2;
+	fixture2.shape = &shape;
+	fixture2.density = 1.0f;
+	asteroidb2->CreateFixture(&fixture);
 	 
 	// create the scene 'tree'
 	// add myentity to this Scene as a child.
 	this->addChild(background);
 	this->addChild(coin);
 	this->addChild(plane);
+	this->addChild(fuel);
 	this->addChild(asteroid);
 	this->addChild(warningSprite);
 	this->addChild(hudobject);
+	this->addChild(fuelbar);
 
 	blokje1->SetTransform(blokje1->GetPosition(), 0.0f * DEG_TO_RAD);
+	asteroidb2->SetTransform(asteroidb2->GetPosition(), 0.0f * DEG_TO_RAD);
+
+	asteroidb2->SetGravityScale(0);
+
 }
 
 
 MyScene::~MyScene()
 {
 	physicsWorld->DestroyBody(blokje1);
+	physicsWorld->DestroyBody(asteroidb2);
+
 	this->removeChild(asteroid);
+	this->removeChild(fuelbar);
 	this->removeChild(hudobject);
 	this->removeChild(coin);
 	this->removeChild(background);
+	this->removeChild(fuel);
 	this->removeChild(plane);
 	this->removeChild(warningSprite);
 
 	delete hudobject;
 	delete asteroid;
 	delete plane;
+	delete fuelbar;
 	delete coin;
+	delete fuel;
 	delete background;
 	delete warningSprite;
 	delete physicsWorld;
@@ -79,9 +111,18 @@ void MyScene::update(float deltaTime)
 	physicsWorld->Step(deltaTime, 8, 5);
 	warningSprite->position = Point2(SWIDTH / 2, SHEIGHT / 2);
 	plane->position = Point2(blokje1->GetPosition().x, blokje1->GetPosition().y) * 50.0f;
+	asteroid->position = Point2(asteroidb2->GetPosition().x, asteroidb2->GetPosition().y) * 50.0f;
+
 	plane->rotation = blokje1->GetAngle();
-	
+	if (fuelbar->scale.x < 0) {
+		//fuelbar->scale.x = 80;
+		startFlying = false;
+	}
+	if (startFlying) {
+		fuelbar->scale.x -= 5 * deltaTime;
+	}
 	if (!startFlying) {
+		fuelbar->scale.x -= 1 * deltaTime;
 		blokje1->SetGravityScale(0);
 		blokje1->SetTransform(blokje1->GetPosition(), 0.0f * DEG_TO_RAD);
 		if (startFlyingcount > 3) {

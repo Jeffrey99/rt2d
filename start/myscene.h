@@ -35,14 +35,18 @@ public:
 	virtual void update(float deltaTime);
 	b2World* physicsWorld;
 	b2Body* blokje1;
+	b2Body* asteroidb2;
+
 private:
 	/// @brief the rotating square in the middle of the screen
 	MyPlane* plane;
 	MySprite* warningSprite;
+	MySprite* fuelbar;
 	MyCoin* coin;
 	MyBackground* background;
 	MyHud* hudobject;
 	Asteroid* asteroid;
+	Fuel* fuel;
 	bool startFlying;
 	float startFlyingcount;
 	/// @brief a Timer to rotate the color every n seconds

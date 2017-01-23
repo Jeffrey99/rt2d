@@ -9,7 +9,7 @@
 Asteroid::Asteroid() : Entity()
 {
 	this->addSprite("assets/images/asteroid.tga");
-	this->position = Point2(SWIDTH+80, SHEIGHT / 2);
+	this->position = Point2(SWIDTH / 2, rand() % 700);
 	this->scale.x = 1.0f;
 	this->scale.y = 1.0f;
 
@@ -23,11 +23,11 @@ Asteroid::~Asteroid()
 
 void Asteroid::update(float deltaTime)
 {
-	this->position.x -= 0.5f;
+	this->position.x -= 600.0f * deltaTime;
 	if (this->position.x <= -175)
 	{
 		this->position = Point2(SWIDTH+80, rand() % 700);
-		turnspeed = rand() % 200;
+		turnspeed = rand() % 300;
 	}
 	// ###############################################################
 	// Rotate

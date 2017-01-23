@@ -8,7 +8,10 @@
 
 Fuel::Fuel() : Entity()
 {
-
+	this->addSprite("assets/images/fuel.tga");
+	this->position = Point2(SWIDTH + 80, rand() % 700);
+	this->scale.x = 0.25f;
+	this->scale.y = 0.25f;
 }
 
 Fuel::~Fuel()
@@ -18,6 +21,11 @@ Fuel::~Fuel()
 
 void Fuel::update(float deltaTime)
 {
+	this->position.x -= 400.0f * deltaTime;
+	if (this->position.x <= -4075)
+	{
+		this->position = Point2(SWIDTH + 80, rand() % 700);
+	}
 	// ###############################################################
 	// Rotate
 	// ###############################################################
