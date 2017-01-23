@@ -42,14 +42,13 @@ MyScene::MyScene() : Scene()
 	b2PolygonShape shape;
 	b2PolygonShape asteroidShape;
 
-	float colliderWidth = 128 * 0.02f; // pixels naar meters
-	float colliderHeight = 64 * 0.02f; // pixels naar meters
+	float colliderWidth = 64 * 0.02f; // pixels naar meters
+	float colliderHeight = 32 * 0.02f; // pixels naar meters
 	shape.SetAsBox(colliderWidth, colliderHeight);
 
 	float colliderWidth2 = 128 * 0.02f; // pixels naar meters
 	float colliderHeight2 = 128 * 0.02f; // pixels naar meters
 	asteroidShape.SetAsBox(colliderWidth2, colliderHeight2);
-	shape.SetAsBox(colliderWidth, colliderHeight);
 
 	b2FixtureDef fixture;
 	fixture.shape = &shape;
@@ -59,7 +58,7 @@ MyScene::MyScene() : Scene()
 	b2FixtureDef fixture2;
 	fixture2.shape = &shape;
 	fixture2.density = 1.0f;
-	asteroidb2->CreateFixture(&fixture);
+	asteroidb2->CreateFixture(&fixture2);
 	 
 	// create the scene 'tree'
 	// add myentity to this Scene as a child.
@@ -107,6 +106,7 @@ MyScene::~MyScene()
 
 void MyScene::update(float deltaTime)
 {
+
 	startFlyingcount += deltaTime;
 	physicsWorld->Step(deltaTime, 8, 5);
 	warningSprite->position = Point2(SWIDTH / 2, SHEIGHT / 2);
@@ -115,7 +115,6 @@ void MyScene::update(float deltaTime)
 
 	plane->rotation = blokje1->GetAngle();
 	if (fuelbar->scale.x < 0) {
-		//fuelbar->scale.x = 80;
 		startFlying = false;
 	}
 	if (startFlying) {
