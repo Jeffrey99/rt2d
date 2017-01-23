@@ -7,7 +7,7 @@ MyCoin::MyCoin() : Entity()
 	this->position = Point2(SWIDTH / 2 , rand() % 700);
 	this->scale.x = 1.0f;
 	this->scale.y = 1.0f;
-	this->addSpriteSheet("assets/images/coin.tga",8,1);
+	this->addSprite("assets/images/coin.tga");
 }
 
 MyCoin::~MyCoin()

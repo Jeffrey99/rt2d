@@ -17,6 +17,8 @@
 #include <time.h>
 
 #include "myscene.h"
+#include "menuScene.h"
+
 
 
 /// @brief main entry point
@@ -33,8 +35,14 @@ int main( void )
 		core.run(myscene); // update and render the current scene
 		core.showFrameRate(5); // show framerate in output every n seconds
 	}
+	/*MyMenuScene* mymenuscene = new MyMenuScene(); // create Scene on the heap
+	while (mymenuscene->isRunning()) { // check status of Scene every frame
+		core.run(mymenuscene); // update and render the current scene
+		core.showFrameRate(5); // show framerate in output every n seconds
+	}*/
 	//core.cleanup(); // cleanup ResourceManager (Textures + Meshes, but not Shaders)
 	delete myscene; // delete Scene and everything in it from the heap to make space for next Scene
+	//delete mymenuscene;
 
 	// No need to explicitly clean up the core.
 	// As a local var, core will go out of scope and destroy Renderer->ResourceManager.

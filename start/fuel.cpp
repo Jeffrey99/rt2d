@@ -9,7 +9,7 @@
 Fuel::Fuel() : Entity()
 {
 	this->addSprite("assets/images/fuel.tga");
-	this->position = Point2(SWIDTH + 80, rand() % 700);
+	this->position = Point2(SWIDTH / 2, rand() % 700);
 	this->scale.x = 0.25f;
 	this->scale.y = 0.25f;
 }

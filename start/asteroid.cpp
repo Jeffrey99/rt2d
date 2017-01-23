@@ -9,7 +9,7 @@
 Asteroid::Asteroid() : Entity()
 {
 	this->addSprite("assets/images/asteroid.tga");
-	this->position = Point2(SWIDTH / 2, rand() % 700);
+	this->position = Point2(SWIDTH / 2 + 800, rand() % 700);
 	this->scale.x = 1.0f;
 	this->scale.y = 1.0f;
 
@@ -23,6 +23,7 @@ Asteroid::~Asteroid()
 
 void Asteroid::update(float deltaTime)
 {
+	std::cout << this->position.x << std::endl;
 	this->position.x -= 600.0f * deltaTime;
 	if (this->position.x <= -175)
 	{

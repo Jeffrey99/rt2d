@@ -6,54 +6,31 @@
  * @brief description of MyScene behavior.
  */
 
-#ifndef MYSCENE_H
-#define MYSCENE_H
+#ifndef MENUSCENE_H
+#define MENUSCENE_H
 
 #include <rt2d/scene.h>
-#include <Box2D/Box2D.h>
-#include "plane.h"
 #include "spritespawner.h"
-#include "background.h"
-#include "coin.h"
-#include "hud.h"
-#include "asteroid.h"
-#include "fuel.h"
 
 
 /// @brief The MyScene class is the Scene implementation.
-class MyScene : public Scene
+class MyMenuScene : public Scene
 {
 public:
 	/// @brief Constructor
-	MyScene();
+	MyMenuScene();
 	/// @brief Destructor
-	virtual ~MyScene();
+	virtual ~MyMenuScene();
 
 	/// @brief update is automatically called every frame
 	/// @param deltaTime the elapsed time in seconds
 	/// @return void
 	virtual void update(float deltaTime);
-	void createCollisions();
-	b2World* physicsWorld;
-	b2Body* blokje1;
-	b2Body* asteroidb2;
-	b2Body* coinb2;
-	b2Body* fuelb2;
-
 
 private:
 	/// @brief the rotating square in the middle of the screen
-	MyPlane* plane;
-	MySprite* warningSprite;
-	MySprite* fuelbar;
-	MyCoin* coin;
-	MyBackground* background;
-	MyHud* hudobject;
-	Asteroid* asteroid;
-	Fuel* fuel;
-	bool startFlying;
-	float startFlyingcount;
 	/// @brief a Timer to rotate the color every n seconds
+	MySprite* background;
 	Timer t;
 };
 
