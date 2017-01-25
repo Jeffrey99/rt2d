@@ -84,7 +84,6 @@ void MyScene::update(float deltaTime)
 	plane->rotation = blokje1->GetAngle();
 	asteroid->rotation = asteroidb2->GetAngle();
 
-
 	if (fuelbar->scale.x < 0) {
 		startFlying = false;
 	}
@@ -191,22 +190,28 @@ void MyScene::createCollisions()
 	b2FixtureDef fixture;
 	fixture.shape = &shape;
 	fixture.density = 1.0f;
+	fixture.friction = 0;
 	blokje1->CreateFixture(&fixture);
+	fixture.isSensor = true;
 
 	b2FixtureDef fixture2;
 	fixture2.shape = &shape;
 	fixture2.density = 1.0f;
+	fixture2.friction = 0;
 	asteroidb2->CreateFixture(&fixture2);
+	fixture2.isSensor = true;
 
 	b2FixtureDef fixture3;
 	fixture3.shape = &shape;
 	fixture3.density = 1.0f;
 	coinb2->CreateFixture(&fixture3);
+	fixture3.isSensor = true;
 
 	b2FixtureDef fixture4;
 	fixture4.shape = &shape;
 	fixture4.density = 1.0f;
 	fuelb2->CreateFixture(&fixture4);
+	fixture4.isSensor = true;
 
 	//blokje1->SetTransform(blokje1->GetPosition(), 0.0f * DEG_TO_RAD);
 	//asteroidb2->SetTransform(asteroidb2->GetPosition(), 0.0f * DEG_TO_RAD);
@@ -218,4 +223,6 @@ void MyScene::createCollisions()
 	coinb2->SetGravityScale(0);
 	fuelb2->SetGravityScale(0);
 	asteroidb2->SetLinearVelocity(b2Vec2(-10, 1));
+	asteroidb2->SetAngularVelocity(2);
+
 }
