@@ -6,14 +6,13 @@
 
 #include "asteroid.h"
 
-Asteroid::Asteroid() : Entity()
+Asteroid::Asteroid() :MyJeffreyEntity()
 {
 	this->addSprite("assets/images/asteroid.tga");
 	this->position = Point2(SWIDTH / 2 + 800, rand() % 700);
 	this->scale.x = 1.0f;
 	this->scale.y = 1.0f;
 
-	float turnspeed = rand() % 300;	
 }
 
 Asteroid::~Asteroid()
@@ -23,16 +22,10 @@ Asteroid::~Asteroid()
 
 void Asteroid::update(float deltaTime)
 {
-	std::cout << this->position.x << std::endl;
-	this->position.x -= 600.0f * deltaTime;
-	if (this->position.x <= -175)
-	{
-		this->position = Point2(SWIDTH+80, rand() % 700);
-		turnspeed = rand() % 300;
-	}
+	MyJeffreyEntity::update(deltaTime);
+	//std::cout << this->position.x << std::endl;
 	// ###############################################################
 	// Rotate
-	this->rotation -= turnspeed * DEG_TO_RAD * deltaTime;
 	// ###############################################################
 
 }

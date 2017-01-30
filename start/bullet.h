@@ -6,8 +6,8 @@
  * @brief description of MyEntity behavior.
  */
 
-#ifndef MYBULLET.H
-#define MYBULLET.H
+#ifndef MYBULLET_H
+#define MYBULLET_H
 
 #include <rt2d/entity.h>
 
@@ -27,6 +27,7 @@ public:
 
 private:
 	/* add your private declarations */
+	float bulletSpeed;
 };
 
 #endif /* MYBULLET_H */

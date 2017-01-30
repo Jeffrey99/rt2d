@@ -9,10 +9,10 @@
 #ifndef ASTEROID_H
 #define ASTEROID_H
 
-#include <rt2d/entity.h>
+#include <start/JeffreyEntity.h>
 
 /// @brief The MyEntity class is the Entity implementation.
-class Asteroid : public Entity
+class Asteroid : public MyJeffreyEntity
 {
 public:
 	/// @brief Constructor
@@ -27,7 +27,6 @@ public:
 
 private:
 	/* add your private declarations */
-	float turnspeed = rand() % 300;
 };
 
 #endif /* MYENTITY_H */

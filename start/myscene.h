@@ -18,6 +18,10 @@
 #include "hud.h"
 #include "asteroid.h"
 #include "fuel.h"
+#include "bullet.h"
+#include "collisionhandler.h"
+
+
 
 
 /// @brief The MyScene class is the Scene implementation.
@@ -33,16 +37,11 @@ public:
 	/// @param deltaTime the elapsed time in seconds
 	/// @return void
 	virtual void update(float deltaTime);
-	void createCollisions();
 	b2World* physicsWorld;
-	b2Body* blokje1;
-	b2Body* asteroidb2;
-	b2Body* coinb2;
-	b2Body* fuelb2;
-
 
 private:
 	/// @brief the rotating square in the middle of the screen
+	void checkEntitiesToDestroy();
 	MyPlane* plane;
 	MySprite* warningSprite;
 	MySprite* fuelbar;
@@ -51,8 +50,11 @@ private:
 	MyHud* hudobject;
 	Asteroid* asteroid;
 	Fuel* fuel;
+	MyBullet* bullet;
+	CollisionHandler* collisionHandler;
 	bool startFlying;
 	float startFlyingcount;
+	std::vector<MyJeffreyEntity*> physicsEntities;
 	/// @brief a Timer to rotate the color every n seconds
 	Timer t;
 };

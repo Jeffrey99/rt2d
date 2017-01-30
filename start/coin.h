@@ -1,9 +1,9 @@
 #ifndef COIN_H
 #define COIN_H
 
-#include <rt2d/entity.h>
+#include <start/JeffreyEntity.h>
 
-class MyCoin : public Entity
+class MyCoin : public MyJeffreyEntity
 {
 public:
 	MyCoin();

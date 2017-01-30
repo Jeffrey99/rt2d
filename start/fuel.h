@@ -9,10 +9,10 @@
 #ifndef FUEL_H
 #define FUEL_H
 
-#include <rt2d/entity.h>
+#include <start/JeffreyEntity.h>
 
 /// @brief The MyEntity class is the Entity implementation.
-class Fuel : public Entity
+class Fuel : public MyJeffreyEntity
 {
 public:
 	/// @brief Constructor
@@ -24,9 +24,10 @@ public:
 	/// @param deltaTime the elapsed time in seconds
 	/// @return void
 	virtual void update(float deltaTime);
-
+	int pickUp();
 private:
 	/* add your private declarations */
+	int fuelAmmount;
 };
 
 #endif /* MYENTITY_H */
