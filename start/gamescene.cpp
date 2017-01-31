@@ -72,7 +72,7 @@ MyScene::~MyScene()
 	delete collisionHandler;
 	physicsWorld->SetContactListener(NULL);
 
-	
+
 	this->removeChild(asteroid);
 	this->removeChild(fuelbar);
 	this->removeChild(hudobject);
@@ -107,13 +107,9 @@ void MyScene::update(float deltaTime)
 	if (input()->getMouseDown(0))
 	{
 		plane->shoot();
+		this->start();
 
-	}
-	if (input()->getMouse(0))
-	{
-		plane->physicsBody->SetTransform(b2Vec2(input()->getMouseX() * 0.02f, input()->getMouseY() * 0.02f), plane->physicsBody->GetAngle());
-		plane->physicsBody->SetAngularVelocity(0);
-		plane->physicsBody->SetLinearVelocity(b2Vec2(0, 0));
+
 	}
 	if (plane->setBackCoin) {
 		Point2 currentPositionC = coin->position;

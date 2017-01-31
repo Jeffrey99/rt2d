@@ -25,7 +25,7 @@
 
 
 
-/// @brief The MyScene class is the Scene implementation.
+ /// @brief The MyScene class is the Scene implementation.
 class MyScene : public Scene
 {
 public:

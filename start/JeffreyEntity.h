@@ -15,7 +15,7 @@
 #include <Box2D/Box2D.h>
 
 
-/// @brief The MyEntity class is the Entity implementation.
+ /// @brief The MyEntity class is the Entity implementation.
 class MyJeffreyEntity : public Entity
 {
 public:

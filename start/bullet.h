@@ -11,7 +11,7 @@
 
 #include <start/JeffreyEntity.h>
 
-/// @brief The MyEntity class is the Entity implementation.
+ /// @brief The MyEntity class is the Entity implementation.
 class MyBullet : public MyJeffreyEntity
 {
 public:

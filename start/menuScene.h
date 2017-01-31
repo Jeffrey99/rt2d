@@ -13,7 +13,7 @@
 #include "spritespawner.h"
 
 
-/// @brief The MyScene class is the Scene implementation.
+ /// @brief The MyScene class is the Scene implementation.
 class MyMenuScene : public Scene
 {
 public:

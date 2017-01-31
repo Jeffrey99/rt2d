@@ -21,7 +21,7 @@ MyPlane::~MyPlane()
 void MyPlane::onCollisionEnter(MyJeffreyEntity * entity)
 {
 	if (entity->name == "fuel") {
-		this->fuel += ((Fuel*)entity)->pickUp();		
+		this->fuel += ((Fuel*)entity)->pickUp();
 		std::stringstream ss;
 		ss << "Fuel pickup";
 		std::cout << ss.str() << std::endl;
@@ -32,7 +32,7 @@ void MyPlane::onCollisionEnter(MyJeffreyEntity * entity)
 		ss << "Coin pickup";
 		std::cout << ss.str() << std::endl;
 		setBackCoin = true;
-	
+
 	}
 	if (entity->name == "asteroid") {
 		std::stringstream ss;
