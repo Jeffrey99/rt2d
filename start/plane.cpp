@@ -8,6 +8,9 @@ MyPlane::MyPlane() : MyJeffreyEntity()
 	this->scale.x = 1.0f;
 	this->scale.y = 1.0f;
 	this->fuel = 100;
+	setBackCoin = false;
+	setBackFuel = false;
+	checkAsteroid = false;
 }
 
 MyPlane::~MyPlane()
@@ -22,16 +25,21 @@ void MyPlane::onCollisionEnter(MyJeffreyEntity * entity)
 		std::stringstream ss;
 		ss << "Fuel pickup";
 		std::cout << ss.str() << std::endl;
+		setBackFuel = true;
 	}
 	if (entity->name == "coin") {
 		std::stringstream ss;
 		ss << "Coin pickup";
 		std::cout << ss.str() << std::endl;
+		setBackCoin = true;
+	
 	}
 	if (entity->name == "asteroid") {
 		std::stringstream ss;
 		ss << "Asteroid";
 		std::cout << ss.str() << std::endl;
+		checkAsteroid = true;
+
 	}
 }
 

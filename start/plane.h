@@ -5,6 +5,8 @@
 #include <start/JeffreyEntity.h>
 #include <start/fuel.h>
 
+
+
 class MyPlane : public MyJeffreyEntity
 {
 public:
@@ -20,6 +22,11 @@ public:
 	/// @return void
 	virtual void update(float deltaTime);
 	float fuel;
+	bool setBackCoin;
+	bool setBackFuel;
+	bool checkAsteroid;
+
+
 private:
 	/* add your private declarations */
 public:

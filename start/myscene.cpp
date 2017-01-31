@@ -94,13 +94,13 @@ MyScene::~MyScene()
 
 void MyScene::update(float deltaTime)
 {
+
 	fuelbar->scale.x = plane->fuel;
 	physicsWorld->Step(deltaTime, 8, 5);
 	startFlyingcount += deltaTime;
 	warningSprite->position = Point2(SWIDTH / 2, SHEIGHT / 2);
 	fuel->physicsBody->SetAngularVelocity(0);
 	coin->physicsBody->SetAngularVelocity(0);
-	std::cout << coin->position.y << std::endl;
 
 	if (input()->getMouseDown(0))
 	{
@@ -112,6 +112,27 @@ void MyScene::update(float deltaTime)
 		plane->physicsBody->SetTransform(b2Vec2(input()->getMouseX() * 0.02f, input()->getMouseY() * 0.02f), plane->physicsBody->GetAngle());
 		plane->physicsBody->SetAngularVelocity(0);
 		plane->physicsBody->SetLinearVelocity(b2Vec2(0, 0));
+	}
+	if (plane->setBackCoin) {
+		Point2 currentPositionC = coin->position;
+		currentPositionC.x = 1600 * 0.02f;
+		currentPositionC.y = rand() % 700 * 0.02f;
+		coin->physicsBody->SetTransform(b2Vec2(currentPositionC.x, currentPositionC.y), coin->rotation);
+		coin->physicsBody->SetLinearVelocity(b2Vec2(-10, 0));
+		plane->setBackCoin = false;
+	}
+	if (plane->setBackFuel) {
+		Point2 currentPositionF = fuel->position;
+		currentPositionF.x = 1600 * 0.02f;
+		currentPositionF.y = rand() % 700 * 0.02f;
+		fuel->physicsBody->SetTransform(b2Vec2(currentPositionF.x, currentPositionF.y), fuel->rotation);
+		fuel->physicsBody->SetLinearVelocity(b2Vec2(-10, 0));
+		plane->setBackFuel = false;
+	}
+	if (plane->checkAsteroid) {
+
+		this->stop();
+		plane->checkAsteroid = false;
 	}
 	if (coin->position.x < 0) {
 		Point2 currentPositionCX = coin->position;
