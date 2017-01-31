@@ -12,10 +12,7 @@ MyScene::MyScene() : Scene()
 	collisionHandler = new CollisionHandler(&physicsEntities);
 	physicsWorld->SetContactListener(collisionHandler);
 
-	t.start(); //Timer
-
 	plane = new MyPlane();
-	bullet = new MyBullet();
 	asteroid = new Asteroid();
 	hudobject = new MyHud;
 	coin = new MyCoin();
@@ -23,6 +20,7 @@ MyScene::MyScene() : Scene()
 	warningSprite = new MySprite();
 	fuelbar = new MySprite();
 	background = new MyBackground();
+	scoreText = new Text();
 	startFlying = false;
 	startFlyingcount = 0;
 	points = 0;
@@ -33,7 +31,7 @@ MyScene::MyScene() : Scene()
 	fuelbar->addSprite("assets/images/fuelbar.tga");
 
 	plane->createPhysics(physicsWorld, Vector2(32, 16));
-	asteroid->createPhysics(physicsWorld, Vector2(64, 64));
+	asteroid->createPhysics(physicsWorld, Vector2(32, 32));
 	coin->createPhysics(physicsWorld, Vector2(32, 32));
 	fuel->createPhysics(physicsWorld, Vector2(32, 32));
 
@@ -55,7 +53,10 @@ MyScene::MyScene() : Scene()
 	this->addChild(warningSprite);
 	this->addChild(hudobject);
 	this->addChild(fuelbar);
-	this->addChild(bullet);
+	this->addChild(scoreText);
+
+
+	scoreText->position = Point2(SWIDTH / 2.0f - 605, SHEIGHT / 2.0f - 275);
 
 	asteroid->physicsBody->SetGravityScale(0);
 	coin->physicsBody->SetGravityScale(0);
@@ -67,6 +68,7 @@ MyScene::MyScene() : Scene()
 	coin->physicsBody->SetLinearVelocity(b2Vec2(-10, 0));
 	fuel->physicsBody->SetLinearVelocity(b2Vec2(-5, 0));
 
+	shootTimer.start();
 }
 
 MyScene::~MyScene()
@@ -74,20 +76,25 @@ MyScene::~MyScene()
 	delete collisionHandler;
 	physicsWorld->SetContactListener(NULL);
 
-
+	this->removeChild(scoreText);
 	this->removeChild(asteroid);
 	this->removeChild(fuelbar);
 	this->removeChild(hudobject);
-	this->removeChild(bullet);
 	this->removeChild(coin);
 	this->removeChild(background);
 	this->removeChild(plane);
 	this->removeChild(warningSprite);
 
+	for (MyBullet* b : bullets) {
+		this->removeChild(b);
+		delete b;
+	}
+	bullets.clear();
+
+	delete scoreText;
 	delete hudobject;
 	delete asteroid;
 	delete plane;
-	delete bullet;
 	delete fuelbar;
 	delete coin;
 	delete background;
@@ -97,7 +104,10 @@ MyScene::~MyScene()
 
 void MyScene::update(float deltaTime)
 {
-
+	std::stringstream scoreStream;
+	scoreStream << "Points: ";
+	scoreStream << points;
+	scoreText->message(scoreStream.str(), WHITE);
 	fuelbar->scale.x = plane->fuel;
 	physicsWorld->Step(deltaTime, 8, 5);
 	startFlyingcount += deltaTime;
@@ -111,7 +121,6 @@ void MyScene::update(float deltaTime)
 	else
 	{
 		outscreenTimer = 0;
-
 	}
 
 	if (outscreenTimer >= 2.0f) {
@@ -189,8 +198,8 @@ void MyScene::update(float deltaTime)
 		Point2 currentPositionAY = asteroid->position;
 		currentPositionAY.x = 1600 * 0.02f;
 		currentPositionAY.y = rand() % 700 * 0.02f;
-		asteroid->physicsBody->SetTransform(b2Vec2(currentPositionAY.x, currentPositionAY.y), asteroid->rotation);
-		asteroid->physicsBody->SetLinearVelocity(b2Vec2(-5, 0));
+		//asteroid->physicsBody->SetTransform(b2Vec2(currentPositionAY.x, currentPositionAY.y), asteroid->rotation);
+		//asteroid->physicsBody->SetLinearVelocity(b2Vec2(-5, 0));
 
 	}
 	if (fuelbar->scale.x < 0) {
@@ -204,6 +213,12 @@ void MyScene::update(float deltaTime)
 			startFlying = true;
 			plane->physicsBody->SetGravityScale(3);
 		}
+	}
+
+	if (input()->getKeyDown(GLFW_KEY_LEFT_SHIFT) && shootTimer.seconds() > 5.0f) {
+		shoot();
+		shootTimer.stop();
+		shootTimer.start();
 	}
 
 	if (input()->getKeyUp(GLFW_KEY_ESCAPE)) {
@@ -235,6 +250,16 @@ void MyScene::update(float deltaTime)
 		warningSprite->position = Point2(SWIDTH / 2 + 1000, SHEIGHT / 2 + 1000);
 	}
 
+	std::vector<MyBullet*>::iterator it = bullets.begin();
+	while (it != bullets.end()) {
+		if ((*it)->destroyMe) {
+			(*it)->destroyMe = true;
+			it = bullets.erase(it);
+		}
+		else {
+			it++;
+		}
+	}
 	checkEntitiesToDestroy();
 
 }
@@ -251,4 +276,16 @@ void MyScene::checkEntitiesToDestroy() {
 			it++;
 		}
 	}
+}
+
+void MyScene::shoot()
+{
+	MyBullet* b = new MyBullet();
+	bullets.push_back(b);
+	b->position = plane->position + Point2(50, 0);
+	b->createPhysics(physicsWorld, Vector2(128, 32));
+	b->physicsBody->SetGravityScale(0);
+	b->physicsBody->SetLinearVelocity(b2Vec2(b->bulletSpeed, 0));
+	physicsEntities.push_back(b);
+	this->addChild(b);
 }

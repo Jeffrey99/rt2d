@@ -10,6 +10,7 @@
 #define MYBULLET_H
 
 #include <start/JeffreyEntity.h>
+#include <start/asteroid.h>
 
  /// @brief The MyEntity class is the Entity implementation.
 class MyBullet : public MyJeffreyEntity
@@ -26,10 +27,11 @@ public:
 	virtual void update(float deltaTime);
 	virtual void onCollisionEnter(MyJeffreyEntity* entity);
 	virtual void onCollisionExit(MyJeffreyEntity* entity);
-
+	float bulletSpeed;
+	bool bulletHit;
 private:
 	/* add your private declarations */
-	float bulletSpeed;
+	
 	float destroyTime;
 };
 

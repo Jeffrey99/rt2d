@@ -9,6 +9,7 @@
 #ifndef MYSCENE_H
 #define MYSCENE_H
 
+#include <sstream>
 #include <rt2d/scene.h>
 #include <rt2d/text.h>
 #include <Box2D/Box2D.h>
@@ -51,16 +52,18 @@ private:
 	MyHud* hudobject;
 	Asteroid* asteroid;
 	Fuel* fuel;
-	MyBullet* bullet;
 	CollisionHandler* collisionHandler;
 	bool startFlying;
+	Timer shootTimer;
 	float startFlyingcount;
 	float outscreenTimer;
 	int points;
 	std::vector<MyJeffreyEntity*> physicsEntities;
-	std::vector<Text*> text;
-	/// @brief a Timer to rotate the color every n seconds
-	Timer t;
+	Text* scoreText;
+
+	std::vector<MyBullet*> bullets;
+	void shoot();
+
 };
 
 #endif /* SCENE00_H */

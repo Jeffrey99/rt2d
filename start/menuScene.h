@@ -26,12 +26,14 @@ public:
 	/// @param deltaTime the elapsed time in seconds
 	/// @return void
 	virtual void update(float deltaTime);
-
+	bool gameScene;
 private:
 	/// @brief the rotating square in the middle of the screen
 	/// @brief a Timer to rotate the color every n seconds
 	MySprite* background;
-	Timer t;
+	MySprite* clickToStart;
+	float clickToStartAlpha;
+	float clickToStartTimer;
 };
 
 #endif /* SCENE00_H */

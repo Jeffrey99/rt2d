@@ -14,6 +14,7 @@
  * There's even a second paragraph.
  */
 #include <rt2d/core.h>
+
 #include <time.h>
 
 #include "gamescene.h"
@@ -31,22 +32,23 @@ int main(void)
 
 	// Scene01
 	MyScene* myscene = new MyScene(); // create Scene on the heap
-	while (myscene->isRunning()) { // check status of Scene every frame
-		core.run(myscene); // update and render the current scene
+	MyMenuScene* menuscene = new MyMenuScene();
+	Scene* currentScene = menuscene;
+	while (myscene->isRunning() && menuscene->isRunning()) { // check status of Scene every frame
+		if (menuscene->gameScene && currentScene != myscene) {
+			currentScene = myscene;
+		}
+		core.run(currentScene); // update and render the current scene
 		core.showFrameRate(5); // show framerate in output every n seconds
 	}
-	/*MyMenuScene* mymenuscene = new MyMenuScene(); // create Scene on the heap
-	while (mymenuscene->isRunning()) { // check status of Scene every frame
-		core.run(mymenuscene); // update and render the current scene
-		core.showFrameRate(5); // show framerate in output every n seconds
-	}*/
-	//core.cleanup(); // cleanup ResourceManager (Textures + Meshes, but not Shaders)
+
 	delete myscene; // delete Scene and everything in it from the heap to make space for next Scene
+	delete menuscene;
 	//delete mymenuscene;
 
 	// No need to explicitly clean up the core.
 	// As a local var, core will go out of scope and destroy Renderer->ResourceManager.
-	// ResourceManager destructor also deletes Shaders.
+	// ResourceManager destructor also deletes  
 
 	return 0;
 }
