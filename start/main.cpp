@@ -16,7 +16,7 @@
 #include <rt2d/core.h>
 #include <time.h>
 
-#include "myscene.h"
+#include "gamescene.h"
 #include "menuScene.h"
 
 

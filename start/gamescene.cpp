@@ -1,7 +1,7 @@
 
 #include <fstream>
 #include <sstream>
-#include "myscene.h"
+#include "gamescene.h"
 #include <iostream>
 using namespace std;
 
