@@ -7,7 +7,7 @@ MyPlane::MyPlane() : MyJeffreyEntity()
 	this->position = Point2(SWIDTH / 2 - 500, SHEIGHT / 2);
 	this->scale.x = 1.0f;
 	this->scale.y = 1.0f;
-	this->fuel = 100;
+	this->fuel = 81;
 	setBackCoin = false;
 	setBackFuel = false;
 	checkAsteroid = false;

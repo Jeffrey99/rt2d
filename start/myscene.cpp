@@ -24,7 +24,8 @@ MyScene::MyScene() : Scene()
 	background = new MyBackground();
 	startFlying = false;
 	startFlyingcount = 0;
-	
+	points = 0;
+
 	warningSprite->addSprite("assets/images/warning.tga");
 	warningSprite->sprite()->color = WHITE;
 	fuelbar->addSprite("assets/images/fuelbar.tga");
@@ -94,14 +95,15 @@ MyScene::~MyScene()
 
 void MyScene::update(float deltaTime)
 {
-
 	fuelbar->scale.x = plane->fuel;
 	physicsWorld->Step(deltaTime, 8, 5);
 	startFlyingcount += deltaTime;
 	warningSprite->position = Point2(SWIDTH / 2, SHEIGHT / 2);
 	fuel->physicsBody->SetAngularVelocity(0);
 	coin->physicsBody->SetAngularVelocity(0);
-
+	if (plane->fuel > 81) {
+		plane->fuel = 81;
+	}
 	if (input()->getMouseDown(0))
 	{
 		plane->shoot();
@@ -119,6 +121,9 @@ void MyScene::update(float deltaTime)
 		currentPositionC.y = rand() % 700 * 0.02f;
 		coin->physicsBody->SetTransform(b2Vec2(currentPositionC.x, currentPositionC.y), coin->rotation);
 		coin->physicsBody->SetLinearVelocity(b2Vec2(-10, 0));
+		points += 1;
+		std::cout << points << std::endl;
+
 		plane->setBackCoin = false;
 	}
 	if (plane->setBackFuel) {
@@ -195,7 +200,6 @@ void MyScene::update(float deltaTime)
 	if (input()->getKeyUp(GLFW_KEY_ESCAPE)) {
 		this->stop();
 	}
-
 	if (input()->getKeyDown(GLFW_KEY_SPACE)) {
 		plane->physicsBody->SetGravityScale(-3);
 	}

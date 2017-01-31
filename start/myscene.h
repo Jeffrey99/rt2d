@@ -10,6 +10,7 @@
 #define MYSCENE_H
 
 #include <rt2d/scene.h>
+#include <rt2d/text.h>
 #include <Box2D/Box2D.h>
 #include "plane.h"
 #include "spritespawner.h"
@@ -54,7 +55,9 @@ private:
 	CollisionHandler* collisionHandler;
 	bool startFlying;
 	float startFlyingcount;
+	int points;
 	std::vector<MyJeffreyEntity*> physicsEntities;
+	std::vector<Text*> text;
 	/// @brief a Timer to rotate the color every n seconds
 	Timer t;
 };

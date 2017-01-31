@@ -14,7 +14,6 @@ Fuel::Fuel() : MyJeffreyEntity()
 	this->scale.y = 0.25f;
 	this->name = "fuel";
 	this->fuelAmmount = 20;
-	this->destroyMe = false;
 }
 
 Fuel::~Fuel()
@@ -33,6 +32,5 @@ void Fuel::update(float deltaTime)
 
 int Fuel::pickUp()
 {
-	//destroyMe = true;
 	return fuelAmmount;
 }

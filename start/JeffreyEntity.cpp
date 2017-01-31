@@ -40,6 +40,8 @@ void MyJeffreyEntity::createPhysics(b2World * rootWorld, Vector2 collidersize)
 	b2FixtureDef fixture;
 	fixture.shape = &shape;
 	fixture.density = 1.0f;
+	fixture.isSensor = true;
+
 
 	this->physicsBody->CreateFixture(&fixture);
 }
