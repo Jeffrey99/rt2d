@@ -13,6 +13,7 @@ MyScene::MyScene() : Scene()
 	physicsWorld->SetContactListener(collisionHandler);
 
 	t.start(); //Timer
+
 	plane = new MyPlane();
 	bullet = new MyBullet();
 	asteroid = new Asteroid();
@@ -25,6 +26,7 @@ MyScene::MyScene() : Scene()
 	startFlying = false;
 	startFlyingcount = 0;
 	points = 0;
+	outscreenTimer = 0;
 
 	warningSprite->addSprite("assets/images/warning.tga");
 	warningSprite->sprite()->color = WHITE;
@@ -95,21 +97,32 @@ MyScene::~MyScene()
 
 void MyScene::update(float deltaTime)
 {
+
 	fuelbar->scale.x = plane->fuel;
 	physicsWorld->Step(deltaTime, 8, 5);
 	startFlyingcount += deltaTime;
 	warningSprite->position = Point2(SWIDTH / 2, SHEIGHT / 2);
 	fuel->physicsBody->SetAngularVelocity(0);
 	coin->physicsBody->SetAngularVelocity(0);
+
+	if (plane->position.y < 0 || plane->position.y > 1080) {
+		outscreenTimer += deltaTime;
+	}
+	else
+	{
+		outscreenTimer = 0;
+
+	}
+
+	if (outscreenTimer >= 2.0f) {
+		this->stop();
+	}
 	if (plane->fuel > 81) {
 		plane->fuel = 81;
 	}
 	if (input()->getMouseDown(0))
 	{
 		plane->shoot();
-		this->start();
-
-
 	}
 	if (plane->setBackCoin) {
 		Point2 currentPositionC = coin->position;

@@ -55,6 +55,7 @@ private:
 	CollisionHandler* collisionHandler;
 	bool startFlying;
 	float startFlyingcount;
+	float outscreenTimer;
 	int points;
 	std::vector<MyJeffreyEntity*> physicsEntities;
 	std::vector<Text*> text;
