@@ -33,6 +33,6 @@ void Fuel::update(float deltaTime)
 
 int Fuel::pickUp()
 {
-	destroyMe = true;
+	//destroyMe = true;
 	return fuelAmmount;
 }

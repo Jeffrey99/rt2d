@@ -9,10 +9,10 @@
 #ifndef MYBULLET_H
 #define MYBULLET_H
 
-#include <rt2d/entity.h>
+#include <start/JeffreyEntity.h>
 
 /// @brief The MyEntity class is the Entity implementation.
-class MyBullet : public Entity
+class MyBullet : public MyJeffreyEntity
 {
 public:
 	/// @brief Constructor
@@ -24,10 +24,13 @@ public:
 	/// @param deltaTime the elapsed time in seconds
 	/// @return void
 	virtual void update(float deltaTime);
+	virtual void onCollisionEnter(MyJeffreyEntity* entity);
+	virtual void onCollisionExit(MyJeffreyEntity* entity);
 
 private:
 	/* add your private declarations */
 	float bulletSpeed;
+	float destroyTime;
 };
 
 #endif /* MYBULLET_H */

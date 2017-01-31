@@ -18,17 +18,10 @@ MyPlane::~MyPlane()
 void MyPlane::onCollisionEnter(MyJeffreyEntity * entity)
 {
 	if (entity->name == "fuel") {
+		this->fuel += ((Fuel*)entity)->pickUp();		
 		std::stringstream ss;
-		ss << "OFG KIJK HOEVEEL FUEL IK EERST HEB!!  ";
-		ss << fuel;
+		ss << "Fuel pickup";
 		std::cout << ss.str() << std::endl;
-		ss = std::stringstream();
-		this->fuel += ((Fuel*)entity)->pickUp();
-		ss << "OFG KIJK HOEVEEL FUEL IK NU DAN WEL NIET HEB!!  ";
-		ss << fuel;
-		std::cout << ss.str() << std::endl;
-		
-		
 	}
 	if (entity->name == "coin") {
 		std::stringstream ss;
@@ -51,13 +44,14 @@ void MyPlane::onCollisionExit(MyJeffreyEntity * entity)
 
 void MyPlane::update(float deltaTime)
 {
-	std::cout << fuel << std::endl;
+	this->fuel -= 5.0f * deltaTime;
 	MyJeffreyEntity::update(deltaTime);
+	//std::cout << fuel << std::endl;
 	// ###############################################################
 	// Rotate
 	// ###############################################################
 
 }
 void MyPlane::shoot() {
-
+	fuel -= 5.0f;
 }

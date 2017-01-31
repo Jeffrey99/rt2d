@@ -12,6 +12,7 @@ Asteroid::Asteroid() :MyJeffreyEntity()
 	this->position = Point2(SWIDTH / 2 + 800, rand() % 700);
 	this->scale.x = 1.0f;
 	this->scale.y = 1.0f;
+	this->name = "asteroid";
 
 }
 

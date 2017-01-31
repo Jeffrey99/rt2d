@@ -26,6 +26,7 @@ MyScene::MyScene() : Scene()
 	startFlyingcount = 0;
 	
 	warningSprite->addSprite("assets/images/warning.tga");
+	warningSprite->sprite()->color = WHITE;
 	fuelbar->addSprite("assets/images/fuelbar.tga");
 
 	plane->createPhysics(physicsWorld, Vector2(32, 16));
@@ -40,8 +41,7 @@ MyScene::MyScene() : Scene()
 	//Define Positions
 	warningSprite->position = Point2(SWIDTH / 2 + 1000, SHEIGHT / 2 + 1000);
 	fuelbar->position = Point2(0, 30);
-	fuelbar->scale.x = 80;
-	warningSprite->sprite()->color = RED;
+	fuelbar->scale.x = plane->fuel;
 	// create the scene 'tree'
 	// add myentity to this Scene as a child.
 	this->addChild(background);
@@ -58,11 +58,11 @@ MyScene::MyScene() : Scene()
 	coin->physicsBody->SetGravityScale(0);
 	fuel->physicsBody->SetGravityScale(0);
 
-	asteroid->physicsBody->SetLinearVelocity(b2Vec2(-10, 1));
+	asteroid->physicsBody->SetLinearVelocity(b2Vec2(-20, 1));
 	asteroid->physicsBody->SetAngularVelocity(2);
 
-	coin->physicsBody->SetLinearVelocity(b2Vec2(-3, 0));
-	fuel->physicsBody->SetLinearVelocity(b2Vec2(-2, 0));
+	coin->physicsBody->SetLinearVelocity(b2Vec2(-10, 0));
+	fuel->physicsBody->SetLinearVelocity(b2Vec2(-5, 0));
 
 }
 
@@ -94,36 +94,78 @@ MyScene::~MyScene()
 
 void MyScene::update(float deltaTime)
 {
+	fuelbar->scale.x = plane->fuel;
 	physicsWorld->Step(deltaTime, 8, 5);
 	startFlyingcount += deltaTime;
 	warningSprite->position = Point2(SWIDTH / 2, SHEIGHT / 2);
+	fuel->physicsBody->SetAngularVelocity(0);
+	coin->physicsBody->SetAngularVelocity(0);
+	std::cout << coin->position.y << std::endl;
+
+	if (input()->getMouseDown(0))
+	{
+		plane->shoot();
+
+	}
 	if (input()->getMouse(0))
 	{
 		plane->physicsBody->SetTransform(b2Vec2(input()->getMouseX() * 0.02f, input()->getMouseY() * 0.02f), plane->physicsBody->GetAngle());
 		plane->physicsBody->SetAngularVelocity(0);
 		plane->physicsBody->SetLinearVelocity(b2Vec2(0, 0));
 	}
-
 	if (coin->position.x < 0) {
-		Point2 currentPosition = coin->position;
-		currentPosition.x = 1600 * 0.02f;
-		coin->physicsBody->SetTransform(b2Vec2(currentPosition.x, currentPosition.y), coin->rotation);
+		Point2 currentPositionCX = coin->position;
+		currentPositionCX.x = 1600 * 0.02f;
+		currentPositionCX.y = rand() % 700 * 0.02f;
+		coin->physicsBody->SetTransform(b2Vec2(currentPositionCX.x, currentPositionCX.y), coin->rotation);
+		coin->physicsBody->SetLinearVelocity(b2Vec2(-10, 0));
+	}
+	if (coin->position.y < 0 || coin->position.y > 1080) {
+		Point2 currentPositionCY = coin->position;
+		currentPositionCY.x = 1600 * 0.02f;
+		currentPositionCY.y = rand() % 700 * 0.02f;
+		coin->physicsBody->SetTransform(b2Vec2(currentPositionCY.x, currentPositionCY.y), coin->rotation);
+		coin->physicsBody->SetLinearVelocity(b2Vec2(-10, 0));
+	}
+	if (fuel->position.x < 0) {
+		Point2 currentPositionFX = fuel->position;
+		currentPositionFX.x = 1600 * 0.02f;
+		currentPositionFX.y = rand() % 700 * 0.02f;
+		fuel->physicsBody->SetTransform(b2Vec2(currentPositionFX.x, currentPositionFX.y), fuel->rotation);
+		fuel->physicsBody->SetLinearVelocity(b2Vec2(-5, 0));
+
+	}
+	if (fuel->position.y < 0 || fuel->position.y > 1080) {
+		Point2 currentPositionFY = fuel->position;
+		currentPositionFY.x = 1600 * 0.02f;
+		currentPositionFY.y = rand() % 700 * 0.02f;
+		fuel->physicsBody->SetTransform(b2Vec2(currentPositionFY.x, currentPositionFY.y), fuel->rotation);
+		fuel->physicsBody->SetLinearVelocity(b2Vec2(-5, 0));
+
 	}
 	if (asteroid->position.x < 0) {
-		Point2 currentPosition = asteroid->position;
+		Point2 currentPositionAX = asteroid->position;
+		currentPositionAX.x = 1600 * 0.02f;
+		currentPositionAX.y = rand() % 700 * 0.02f;
+		asteroid->physicsBody->SetTransform(b2Vec2(currentPositionAX.x, currentPositionAX.y), asteroid->rotation);
+		asteroid->physicsBody->SetLinearVelocity(b2Vec2(-20, rand() % 10));
 	}
+	if (asteroid->position.y < 0 || asteroid->position.y > 1080) {
+		Point2 currentPositionAY = asteroid->position;
+		currentPositionAY.x = 1600 * 0.02f;
+		currentPositionAY.y = rand() % 700 * 0.02f;
+		asteroid->physicsBody->SetTransform(b2Vec2(currentPositionAY.x, currentPositionAY.y), asteroid->rotation);
+		asteroid->physicsBody->SetLinearVelocity(b2Vec2(-5, 0));
 
+	}
 	if (fuelbar->scale.x < 0) {
 		startFlying = false;
 	}
-	if (startFlying) {
-		fuelbar->scale.x -= 5 * deltaTime;
-	}
+
 	if (!startFlying) {
-		fuelbar->scale.x -= 1 * deltaTime;
 		plane->physicsBody->SetGravityScale(0);
 		plane->physicsBody->SetTransform(plane->physicsBody->GetPosition(), 0);
-		if (startFlyingcount > 3) {
+		if (startFlyingcount > 1) {
 			startFlying = true;
 			plane->physicsBody->SetGravityScale(3);
 		}
@@ -157,12 +199,6 @@ void MyScene::update(float deltaTime)
 	}
 	if (plane->position.y > SHEIGHT / 2 - 400 && plane->position.y < SHEIGHT / 2 + 400) {
 		warningSprite->position = Point2(SWIDTH / 2 + 1000, SHEIGHT / 2 + 1000);
-	}
-	if (t.seconds() > 0.0333f) {
-		RGBAColor color = warningSprite->sprite()->color;
-		warningSprite->sprite()->color = Color::rotate(color, 0.5f);
-		t.start();
-
 	}
 
 	checkEntitiesToDestroy();

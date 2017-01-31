@@ -191,6 +191,28 @@ add_executable(start
 	start/myentity.h
 	start/myscene.cpp
 	start/myscene.h
+	start/asteroid.h
+	start/asteroid.cpp
+	start/background.h
+	start/background.cpp
+	start/bullet.h
+	start/bullet.cpp
+	start/coin.h
+	start/coin.cpp
+	start/fuel.h
+	start/fuel.cpp
+	start/JeffreyEntity.h
+	start/JeffreyEntity.cpp
+	start/menuScene.h
+	start/menuScene.cpp
+	start/plane.h
+	start/plane.cpp
+	start/spritespawner.h
+	start/spritespawner.cpp
+	start/collisionhandler.h
+	start/collisionhandler.cpp
+	start/hud.h
+	start/hud.cpp
 )
 target_link_libraries(start
 	${ALL_LIBS}
